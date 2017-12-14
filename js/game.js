@@ -5,13 +5,13 @@ var game = new Phaser.Game(512, 240, Phaser.CANVAS, '', {
 }, false, false);
 
 function preload() {
-  game.load.spritesheet('tiles', '../assets/tiles_sprite.png', 16, 16);
-  game.load.spritesheet('enemy', '../assets/enemy.png', 16, 16);
-  game.load.spritesheet('santa', '../assets/santa_sprite.png', 16, 16);
-  game.load.spritesheet('star', '../assets/stars.png', 16, 16);
-  game.load.image('background', '../assets/background.jpg');
+  game.load.spritesheet('tiles', '/assets/tiles_sprite.png', 16, 16);
+  game.load.spritesheet('enemy', '/assets/enemy.png', 16, 16);
+  game.load.spritesheet('santa', '/assets/santa_sprite.png', 16, 16);
+  game.load.spritesheet('star', '/assets/stars.png', 16, 16);
+  game.load.image('background', '/assets/background.jpg');
   //game.load.audio('starkill', './star.mp3');
-  game.load.tilemap('level', '../js/level1.json', null, Phaser.Tilemap.TILED_JSON);
+  game.load.tilemap('level', '/js/level1.json', null, Phaser.Tilemap.TILED_JSON);
   // game.load.tilemap('level', 'https://api.myjson.com/bins/3kk2g', null, Phaser.Tilemap.TILED_JSON);
 }
 
