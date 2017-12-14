@@ -1,0 +1,69 @@
+html,
+body{
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  background: black;
+}
+main{
+  background: url("./img/Top_ud.png") 0 0 repeat-x,
+              url("./img/Top.png") 100% 100% repeat-x;
+}
+h1 {
+  color: orange;
+}
+a{
+  text-decoration: none;
+  color: #fff;
+}
+a:hover{
+  color: #ffc53d;
+}
+footer{
+  height: 50px;
+  margin-top: 40px;
+}
+.wrapper{
+  font-family: 'Press Start 2P', monospace;
+  width: 1000px;
+  margin: 0 auto;
+  padding: 50px 0 0;
+  color: #fff;
+  text-align: center;
+}
+
+.play{
+  width: 200px;
+  height: 75px;
+  background: #ffb300;
+  border: 3px solid #fff;
+  border-radius: 15px;
+  box-sizing: border-box;
+  display: inline-block;
+  margin: 0 400px 25px;
+  text-align: center;
+  padding: 24px 0;
+  font-size: 24px;
+}
+.play:hover{
+  background: #ff6700;
+}
+.wrapper p {
+  padding: 0 50px;
+  line-height: 20px;
+  margin-bottom: 15px;
+}
+.control{
+  color: yellow;
+}
+.controls{
+  color: #ffc53d;
+}
+iframe {
+  margin: 10px;
+}
+.screenshot{
+  margin-top: 5px;
+  height: 275px;
+  border: 2px orange solid;
+}
