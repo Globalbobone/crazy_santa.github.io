@@ -1,20 +1,24 @@
-var game = new Phaser.Game(512, 240, Phaser.CANVAS, '', {
+var game = new Phaser.Game(512, 240, Phaser.CANVAS, 'game', {
   preload: preload,
   create: create,
   update: update
 }, false, false);
 
 function preload() {
-  game.load.spritesheet('tiles', '../assets/tiles_sprite.png', 16, 16);
-  game.load.spritesheet('enemy', '../assets/enemy.png', 16, 16);
-  game.load.spritesheet('santa', '../assets/santa_sprite.png', 16, 16);
-  game.load.spritesheet('star', '../assets/stars.png', 16, 16);
-  game.load.image('background', '../assets/background.jpg');
-  //game.load.audio('starkill', './star.mp3');
-  game.load.tilemap('level', '../js/level1.json', null, Phaser.Tilemap.TILED_JSON);
-  // game.load.tilemap('level', 'https://api.myjson.com/bins/3kk2g', null, Phaser.Tilemap.TILED_JSON);
+  game.load.spritesheet('tiles', 'https://globalbobone.github.io/globalbobone.crazy_santa.github.io/assets/tiles_sprite.png', 16, 16);
+  game.load.spritesheet('enemy', 'https://globalbobone.github.io/globalbobone.crazy_santa.github.io/assets/enemy.png', 16, 16);
+  game.load.spritesheet('santa', 'https://globalbobone.github.io/globalbobone.crazy_santa.github.io/assets/santa_sprite.png', 16, 16);
+  game.load.spritesheet('star', 'https://globalbobone.github.io/globalbobone.crazy_santa.github.io/assets/stars.png', 16, 16);
+  game.load.image('background', 'https://globalbobone.github.io/globalbobone.crazy_santa.github.io/assets/background.jpg');
+  game.load.audio('starkill', 'https://globalbobone.github.io/globalbobone.crazy_santa.github.io/assets/key.wav');
+  game.load.audio('music', 'https://globalbobone.github.io/globalbobone.crazy_santa.github.io/assets/music.mp3');
+  game.load.audio('death', 'https://globalbobone.github.io/globalbobone.crazy_santa.github.io/assets/death.wav');
+  game.load.audio('game_over', 'https://globalbobone.github.io/globalbobone.crazy_santa.github.io/assets/game_over.mp3');
+  game.load.tilemap('level', 'https://globalbobone.github.io/globalbobone.crazy_santa.github.io/js/level1.json', null, Phaser.Tilemap.TILED_JSON);
 }
 
+let score = 0;
+//let stateText;
 
 function create() {
   Phaser.Canvas.setImageRenderingCrisp(game.canvas)
@@ -26,12 +30,21 @@ function create() {
   game.add.tileSprite(512, 0, 512, 480, 'background');
   game.add.tileSprite(1024, 0, 512, 480, 'background');
   game.add.tileSprite(1536, 0, 512, 480, 'background');
-  //starkill = game.add.audio('starkill');
-  /*game.stage.backgroundColor = '#5c94fc';*/
+  
+  music = game.add.audio('music');
+  music.loop = true;
+  music.volume = 0.8;
+  music.play();
+
+  starkill = game.add.audio('starkill');
+  starkill.volume = 0.5;
+
+  death = game.add.audio('death');
+  game_over = game.add.audio('game_over');
+
   map = game.add.tilemap('level');
   map.addTilesetImage('tiles', 'tiles');
   map.setCollisionBetween(3, 12, true, 'solid');
-
   map.createLayer('background');
 
   layer = map.createLayer('solid');
@@ -59,10 +72,14 @@ function create() {
   player.animations.add('walkRight', [1, 2, 3], 10, true);
   player.animations.add('walkLeft', [8, 9, 10], 10, true);
   player.goesRight = true;
-
   game.camera.follow(player);
-
+  
+  scoreText = game.add.text(8, 8, 'Score: 0', { fontSize: '16px', fill: '#FFFA7A' });
+  scoreText.fixedToCamera = true;
   cursors = game.input.keyboard.createCursorKeys();
+
+    //var gameoverLabel = stateText = game.add.text(240, 300, ' ', {font: '36px Arial', fill: '#FFFA7A'});
+    //stateText.anchor.setTo(1.1, 0.2);
 }
 
 function update() {
@@ -85,8 +102,6 @@ function update() {
       player.animations.stop();
       if (player.goesRight) player.frame = 0;
       else player.frame = 7;
-      /*game.stateText.text = " GAME OVER \n Click to restart";
-      game.stateText.visible = true;*/
     }
 
     if (cursors.up.isDown && player.body.onFloor()) {
@@ -102,13 +117,22 @@ function update() {
 }
 
 function starOverlap(player, star) {
+  starkill.play();
   star.kill();
-  //starkill.play();
+  score += 10;
+  scoreText.text = 'Score: ' + score;
 }
+
+/*function render() {
+    game.debug.soundInfo(music, 20, 32);
+}*/
 
 function enemyOverlap(player, enemy) {
   if (player.body.touching.down) {
     enemy.animations.stop();
+    death.play();
+    score += 20;
+    scoreText.text = 'Score: ' + score;
     enemy.frame = 2;
     enemy.body.enable = false;
     player.body.velocity.y = -80;
@@ -119,7 +143,12 @@ function enemyOverlap(player, enemy) {
     player.frame = 6;
     player.body.enable = false;
     player.animations.stop();
-    game.time.events.add(Phaser.Timer.SECOND * 3, function() {
+    game_over.play();
+    music.stop();
+    game.world.removeAll();
+        //stateText.text = " GAME OVER \n Click to restart";
+        //stateText.visible = true;
+    game.time.events.add(Phaser.Timer.SECOND * 2, function() {
       game.paused = true;
     });
   }
