@@ -14,6 +14,7 @@ function preload() {
   game.load.audio('music', 'https://globalbobone.github.io/globalbobone.crazy_santa.github.io/assets/music.mp3');
   game.load.audio('death', 'https://globalbobone.github.io/globalbobone.crazy_santa.github.io/assets/death.wav');
   game.load.audio('game_over', 'https://globalbobone.github.io/globalbobone.crazy_santa.github.io/assets/game_over.mp3');
+  game.load.audio('game_win', 'https://globalbobone.github.io/globalbobone.crazy_santa.github.io/assets/key.wav');
   game.load.tilemap('level', 'https://globalbobone.github.io/globalbobone.crazy_santa.github.io/js/level1.json', null, Phaser.Tilemap.TILED_JSON);
 }
 
@@ -41,6 +42,7 @@ function create() {
 
   death = game.add.audio('death');
   game_over = game.add.audio('game_over');
+  game_win = game.add.audio('game_win');
 
   map = game.add.tilemap('level');
   map.addTilesetImage('tiles', 'tiles');
@@ -65,7 +67,7 @@ function create() {
   enemys.setAll('body.velocity.x', -20);
   enemys.setAll('body.gravity.y', 500);
 
-  player = game.add.sprite(16, game.world.height - 48, 'santa');
+  player = game.add.sprite(16, game.world.height - 148, 'santa');
   game.physics.arcade.enable(player);
   player.body.gravity.y = 370;
   player.body.collideWorldBounds = true;
@@ -77,9 +79,9 @@ function create() {
   scoreText = game.add.text(8, 8, 'Score: 0', { fontSize: '16px', fill: '#FFFA7A' });
   scoreText.fixedToCamera = true;
   cursors = game.input.keyboard.createCursorKeys();
-
-    //var gameoverLabel = stateText = game.add.text(240, 300, ' ', {font: '36px Arial', fill: '#FFFA7A'});
-    //stateText.anchor.setTo(1.1, 0.2);
+    stateText = game.add.text(450, 50, ' ', {font: '16px Press Start 2P', fill: '#FFFA7A'});
+    stateText.anchor.setTo(1.1, 0.2);
+    stateText.fixedToCamera = true;
 }
 
 function update() {
@@ -87,6 +89,7 @@ function update() {
   game.physics.arcade.collide(enemys, layer);
   game.physics.arcade.overlap(player, enemys, enemyOverlap);
   game.physics.arcade.overlap(player, stars, starOverlap);
+  winer();
 
   if (player.body.enable) {
     player.body.velocity.x = 0;
@@ -113,6 +116,22 @@ function update() {
       if (player.goesRight) player.frame = 5;
       else player.frame = 12;
     }
+  }
+}
+
+function winer() {
+    if (score > 1000 ) {
+      player.frame = 1;
+      player.body.enable = false;
+      player.animations.stop();
+      game_win.play();
+      music.stop();
+      stateText.text = " YOU WIN \n F5 to restart \n Score: " + score;
+      stateText.visible = true;
+      game.time.events.add(Phaser.Timer.SECOND * 3, function() {
+      game.paused = true;
+      //location.reload();
+    });  
   }
 }
 
@@ -145,9 +164,10 @@ function enemyOverlap(player, enemy) {
     player.animations.stop();
     game_over.play();
     music.stop();
-    game.world.removeAll();
-        //stateText.text = " GAME OVER \n Click to restart";
-        //stateText.visible = true;
+    //game.world.removeAll();
+      stateText.text = " GAME OVER \n YOU LOSE \n F5 to restart";
+      stateText.visible = true;
+      
     game.time.events.add(Phaser.Timer.SECOND * 2, function() {
       game.paused = true;
     });
