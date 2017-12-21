@@ -5,7 +5,6 @@ var game = new Phaser.Game(512, 240, Phaser.CANVAS, 'game', {
 }, false, false);
 
 function preload() {
-<<<<<<< HEAD
   game.load.spritesheet('tiles', 'https://globalbobone.github.io/globalbobone.crazy_santa.github.io/assets/tiles_sprite.png', 16, 16);
   game.load.spritesheet('enemy', 'https://globalbobone.github.io/globalbobone.crazy_santa.github.io/assets/enemy.png', 16, 16);
   game.load.spritesheet('santa', 'https://globalbobone.github.io/globalbobone.crazy_santa.github.io/assets/santa_sprite.png', 16, 16);
@@ -16,25 +15,6 @@ function preload() {
   game.load.audio('death', 'https://globalbobone.github.io/globalbobone.crazy_santa.github.io/assets/death.wav');
   game.load.audio('game_over', 'https://globalbobone.github.io/globalbobone.crazy_santa.github.io/assets/game_over.mp3');
   game.load.tilemap('level', 'https://globalbobone.github.io/globalbobone.crazy_santa.github.io/js/level1.json', null, Phaser.Tilemap.TILED_JSON);
-||||||| merged common ancestors
-  game.load.spritesheet('tiles', '../assets/tiles_sprite.png', 16, 16);
-  game.load.spritesheet('enemy', '../assets/enemy.png', 16, 16);
-  game.load.spritesheet('santa', '../assets/santa_sprite.png', 16, 16);
-  game.load.spritesheet('star', '../assets/stars.png', 16, 16);
-  game.load.image('background', '../assets/background.jpg');
-  //game.load.audio('starkill', './star.mp3');
-  game.load.tilemap('level', '../js/level1.json', null, Phaser.Tilemap.TILED_JSON);
-  // game.load.tilemap('level', 'https://api.myjson.com/bins/3kk2g', null, Phaser.Tilemap.TILED_JSON);
-=======
-  game.load.spritesheet('tiles', 'https://globalbobone.github.io/globalbobone.crazy_santa.github.io/assets/tiles_sprite.png', 16, 16);
-  game.load.spritesheet('enemy', 'https://globalbobone.github.io/globalbobone.crazy_santa.github.io/assets/enemy.png', 16, 16);
-  game.load.spritesheet('santa', 'https://globalbobone.github.io/globalbobone.crazy_santa.github.io/assets/santa_sprite.png', 16, 16);
-  game.load.spritesheet('star', 'https://globalbobone.github.io/globalbobone.crazy_santa.github.io/assets/stars.png', 16, 16);
-  game.load.image('background', 'https://globalbobone.github.io/globalbobone.crazy_santa.github.io/assets/background.jpg');
-  //game.load.audio('starkill', './star.mp3');
-  game.load.tilemap('level', 'https://globalbobone.github.io/globalbobone.crazy_santa.github.io/js/level1.json', null, Phaser.Tilemap.TILED_JSON);
-  // game.load.tilemap('level', 'https://api.myjson.com/bins/3kk2g', null, Phaser.Tilemap.TILED_JSON);
->>>>>>> 4852c3df9f4aa9fd98c47a0bd82b0e181517ca87
 }
 
 let score = 0;
